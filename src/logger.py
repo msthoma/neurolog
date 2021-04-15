@@ -1,4 +1,3 @@
-
 import bisect
 from time import strftime
 
@@ -22,13 +21,13 @@ class Logger(object):
 
     def write_to_file(self, name):
         columns = list(self.log_data.keys())
-        lines = ['i,'+','.join(columns)]
+        lines = ['i,' + ','.join(columns)]
         for i in self.indices:
             row = [str(i)]
             for c in columns:
                 row.append(str(self.log_data[c].get(i, '')))
             lines.append(','.join(row))
         datetime = strftime('_%y%m%d_%H%M')
-        filename = name+datetime+'.log'
+        filename = name + datetime + '.log'
         with open(filename, 'w')as f:
             f.write('\n'.join(lines))

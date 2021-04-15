@@ -1,1 +1,1 @@
-number_of_arguments = 5
+number_of_arguments = 3

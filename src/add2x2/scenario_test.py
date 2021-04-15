@@ -1,17 +1,18 @@
 import torch
-from networks.mnist_nets import COMP_NET
-from abstract_translator import AbstractTranslator
-from add2x2.manager import Add2x2Manager
-from add2x2.evaluate import Evaluator
-from params import useGPU
-from run import scenario_test
-from add2x2.abducibles import abducibles, exclusive    
+
+from src.abstract_translator import AbstractTranslator
+from src.add2x2.abducibles import abducibles, exclusive
+from src.add2x2.evaluate import Evaluator
+from src.add2x2.manager import Add2x2Manager
+from src.networks.mnist_nets import COMP_NET
+from src.params import useGPU
+from src.run import scenario_test
 
 network = COMP_NET()
 if useGPU:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     network.to(device)
-    
+
 translator = AbstractTranslator(abducibles, exclusive)
 dataManager = Add2x2Manager()
 outputClasses = [10] * 4

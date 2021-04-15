@@ -1,12 +1,12 @@
-
 import torch
-from networks.apply2x2_nets import COMP_NET
-from abstract_translator import AbstractTranslator
-from apply2x2.abduction import Abduction
-from apply2x2.manager import Apply2x2Manager
-from params import useGPU, sicstus_bin
-from run import scenario_train
-from apply2x2.abducibles import abducibles, exclusive 
+
+from src.abstract_translator import AbstractTranslator
+from src.apply2x2.abducibles import abducibles, exclusive
+from src.apply2x2.abduction import Abduction
+from src.apply2x2.manager import Apply2x2Manager
+from src.networks.apply2x2_nets import COMP_NET
+from src.params import useGPU, sicstus_bin
+from src.run import scenario_train
 
 network = COMP_NET()
 if useGPU:

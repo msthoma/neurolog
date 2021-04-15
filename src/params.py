@@ -1,5 +1,3 @@
-
-
 nr_epochs = 3
 minibatch_size = 1
 learning_rate = 0.001
@@ -11,9 +9,10 @@ results_root = '../../results/'
 logs_root = '../../logs/'
 snapshot_iter = 100
 shuffle = True
-useGPU = True
-#path to SICStus bin directory 
-sicstus_bin = ''
+useGPU = False
+# path to SICStus bin directory
+sicstus_bin = '/home/marios/Downloads/sicstus_bin/'
+
 
 def printparams():
     print("nr_epochs  = " + str(nr_epochs))
