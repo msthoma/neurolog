@@ -1,3 +1,7 @@
+Forked from the [neurolog repository](https://bitbucket.org/tsamoura/neurolog/src/master/), based on the paper by Tsamoura & Michael (2020), [_Neural-Symbolic Integration: A Compositional Perspective_](https://arxiv.org/abs/2010.11926).
+
+The original README follows.
+
 # README #
 
 Contains the source code to reproduce the CHESS-BSV, CHESS-ISK and CHESS-NGA scenarios.
