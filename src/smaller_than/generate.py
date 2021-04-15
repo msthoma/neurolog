@@ -1,12 +1,14 @@
 import random
+from pathlib import Path
 
+import pandas as pd
 from torchvision.datasets.mnist import MNIST
 
 from src.datasets import mnist_test_data, mnist_train_data
 from src.params import data_root
 
 
-def create_examples(dataset: MNIST, number_of_examples: int, pair_type: int, filename: str):
+def create_examples(dataset: MNIST, number_of_examples: int, pair_type: int, filename: Path):
     """
     Generates datasets for the `smaller_than` scenario.
 
@@ -29,6 +31,7 @@ def create_examples(dataset: MNIST, number_of_examples: int, pair_type: int, fil
         else:
             odd_digit_indices.append(i)
 
+    # create pairs
     pairs = list()
     if pair_type == 0:  # two odd or two even digits
         for _ in range(number_of_examples):
@@ -57,9 +60,20 @@ def create_examples(dataset: MNIST, number_of_examples: int, pair_type: int, fil
 
             pairs.append([*pair, digit_1 < digit_2])
 
-    print(sum(d[2] for d in pairs), len(pairs), pair_type)
+    # write dataset to csv file
+    dt = pd.DataFrame(pairs, columns=["digit_1_image", "digit_2_image", "label"])
+
+    filename.parent.mkdir(exist_ok=True)  # make sure subdirectory exists
+
+    with open(filename, "w") as f:
+        dt.to_csv(f, sep=",", index=False)
 
 
 if __name__ == '__main__':
-    create_examples(dataset=mnist_test_data, number_of_examples=1000, pair_type=1,
-                    filename=data_root + "smaller_than/train_data.txt")
+    dataset_names, pair_types = ["T1", "T2", "E1", "E2"], [0, 1, 0, 1]
+
+    for dt_name, p_type in zip(dataset_names, pair_types):
+        print(f"Generating {dt_name} dataset...", end=" ", flush=True)
+        create_examples(dataset=mnist_train_data if "T" in dt_name else mnist_test_data, number_of_examples=10000,
+                        pair_type=p_type, filename=Path(data_root) / "smaller_than" / f"{dt_name}_dataset.csv")
+        print("Done!", flush=True)
