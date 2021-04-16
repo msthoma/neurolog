@@ -28,12 +28,8 @@ class SmallerThanExample(Example):
         self.digit1_image = digit1_image
         self.digit2_image = digit2_image
 
-    # def __str__(self):
-    #     return 'digit1=' + str(self.digit1) + ',' + 'digit2=' + str(self.digit2) + ',' + 'digit3=' + str(
-    #         self.digit3) + ',' + \
-    #            'op11_image=' + str(self.op11_image) + ',' + 'op12_image=' + str(self.op12_image) + ',' + \
-    #            'op21_image=' + str(self.op21_image) + ',' + 'op22_image=' + str(self.op22_image) + ',label=' + str(
-    #         self.label)
+    def __str__(self):
+        return f"digit1={self.digit1},digit2={self.digit2},images={[self.digit1_image, self.digit2_image]},label={self.label}"
 
 
 class SmallerThanManager(BenchmarkManager):
