@@ -2,7 +2,7 @@ import torch
 
 from abducibles import abducibles, exclusive
 from abduction import Abduction
-from local_params import scenario_name
+from local_params import dataset_names, scenario_name
 from manager import SmallerThanManager
 from src.abstract_translator import AbstractTranslator
 from src.networks.mnist_nets import COMP_NET
@@ -20,6 +20,6 @@ abduction = Abduction(sicstus_bin, translator)
 outputClasses = [10] * 2
 
 if __name__ == '__main__':
-    # Train on T1
-    scenario_train(network, outputClasses, translator, dataManager, scenario_name, abduction,
-                   dataset_name="T1_dataset.csv")
+    # train on both T1 and T2 datasets
+    for dataset in [dt for dt in dataset_names if "T" in dt]:
+        scenario_train(network, outputClasses, translator, dataManager, scenario_name, abduction, dataset_name=dataset)
