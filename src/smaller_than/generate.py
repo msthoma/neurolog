@@ -75,6 +75,7 @@ if __name__ == '__main__':
 
     for dt_name, p_type in zip(dataset_names, pair_types):
         print(f"Generating {dt_name} dataset...", end=" ", flush=True)
-        create_examples(dataset=mnist_train_data if "T" in dt_name else mnist_test_data, number_of_examples=20000,
-                        pair_type=p_type, filename=Path(data_root) / scenario_name / f"{dt_name}.csv")
+        create_examples(dataset=mnist_train_data if "T" in dt_name else mnist_test_data,
+                        number_of_examples=20000 if "T" in dt_name else 5000, pair_type=p_type,
+                        filename=Path(data_root) / scenario_name / f"{dt_name}.csv")
         print("Done!", flush=True)
