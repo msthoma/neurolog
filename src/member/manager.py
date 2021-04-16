@@ -28,6 +28,9 @@ class MemberExample(Example):
         self.images = images
         self.target = target
 
+    def __str__(self):
+        return f"images={self.images},target={self.target},label={self.label}"
+
 
 class MemberManager(BenchmarkManager):
 
