@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 from torchvision.datasets.mnist import MNIST
 
-from local_params import scenario_name
+from local_params import dataset_names, scenario_name
 from src.datasets import mnist_test_data, mnist_train_data
 from src.params import data_root
 
@@ -71,7 +71,7 @@ def create_examples(dataset: MNIST, number_of_examples: int, pair_type: int, fil
 
 
 if __name__ == '__main__':
-    dataset_names, pair_types = ["T1", "T2", "E1", "E2"], [0, 1, 0, 1]
+    pair_types = [0, 1, 0, 1]
 
     for dt_name, p_type in zip(dataset_names, pair_types):
         print(f"Generating {dt_name} dataset...", end=" ", flush=True)
