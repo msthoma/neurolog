@@ -45,4 +45,5 @@ def scenario_test(network, outputClasses, translator: AbstractTranslator, dataMa
     examples = dataManager.loadExampleTuples(
         data_root + scenario + "/" + test_dataset if test_dataset is not None else "test_data.txt")
     tester = Tester(network, outputClasses, dataManager, translator, evaluator)
-    tester.test(examples)
+    accuracy = tester.test(examples)
+    return accuracy
