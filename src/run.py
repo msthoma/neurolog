@@ -13,8 +13,8 @@ from src.train import Trainer
 
 
 def scenario_train(network, outputClasses, translator: AbstractTranslator, dataManager: BenchmarkManager, scenario,
-                   abduction: AbstractAbduction):
-    examples = dataManager.loadExampleTuples(data_root + scenario + '/train_data.txt')
+                   abduction: AbstractAbduction, dataset_name: str = "/train_data.txt"):
+    examples = dataManager.loadExampleTuples(data_root + scenario + dataset_name)
 
     shuffling_index = 0
     while shuffling_index < 10:
@@ -33,9 +33,9 @@ def scenario_train(network, outputClasses, translator: AbstractTranslator, dataM
 
 
 def scenario_test(network, outputClasses, translator: AbstractTranslator, dataManager: BenchmarkManager, scenario,
-                  model_name, evaluator):
+                  model_name, evaluator, dataset_name: str = "/test_data.txt"):
     model_path = models_root + scenario + '/' + model_name
     network.load_state_dict(torch.load(model_path))
-    examples = dataManager.loadExampleTuples(data_root + scenario + '/test_data.txt')
+    examples = dataManager.loadExampleTuples(data_root + scenario + dataset_name)
     tester = Tester(network, outputClasses, dataManager, translator, evaluator)
     tester.test(examples)
