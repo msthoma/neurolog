@@ -1,6 +1,7 @@
 import re
 from pathlib import Path
 
+import pandas as pd
 import torch
 
 from abducibles import abducibles, exclusive
@@ -38,17 +39,20 @@ if __name__ == '__main__':
             n_iter = int(re.search(pattern=r"iter_(\d*)", string=iter_model.name).groups()[0])
             iter_models[n_iter] = iter_model
 
-        # evaluate model at each iteration (the models are sorted according to their iteration number)
-        accuracies = list()
-        for n_iter in sorted(iter_models.keys()):
-            model_name = iter_models[n_iter].name
-            accuracy = scenario_test(network, outputClasses, translator, dataManager, scenario_name, model_name,
-                                     evaluator, test_dataset="E2.csv", train_dataset=train_dataset)
-            accuracies.append([n_iter, accuracy])
+        # evaluate with each of the two test datasets E1 and E2
+        for test_dataset in test_datasets:
+            accuracies = list()
 
-        results_path = Path(results_root) / scenario_name
-        results_path.mkdir(exist_ok=True)
+            # evaluate model at each iteration (the models are sorted according to their iteration number)
+            for n_iter in sorted(iter_models.keys()):
+                model_name = iter_models[n_iter].name
+                accuracy = scenario_test(network, outputClasses, translator, dataManager, scenario_name, model_name,
+                                         evaluator, test_dataset=f"{test_dataset}.csv", train_dataset=train_dataset)
+                accuracies.append([n_iter, accuracy])
 
-        with open(results_path / f"train_{train_dataset}_eval_E2_results", "w") as f:
-            for line in accuracies:
-                f.write(",".join(map(str, line)) + "\n")
+            results_path = Path(results_root) / scenario_name
+            results_path.mkdir(exist_ok=True)
+
+            # write results to files
+            with open(results_path / f"train_{train_dataset}_eval_{test_dataset}_results.csv", "w") as f:
+                pd.DataFrame(data=accuracies, columns=["iteration", "accuracy"]).to_csv(f, index=False)
