@@ -67,7 +67,7 @@ def create_examples(dataset: MNIST, number_of_examples: int, pair_type: int, fil
     filename.parent.mkdir(exist_ok=True)  # make sure subdirectory exists
 
     with open(filename, "w") as f:
-        dt.to_csv(f, sep=",", index=False)
+        dt.to_csv(f, sep=",", header=False, index=False)
 
 
 if __name__ == '__main__':
@@ -75,6 +75,6 @@ if __name__ == '__main__':
 
     for dt_name, p_type in zip(dataset_names, pair_types):
         print(f"Generating {dt_name} dataset...", end=" ", flush=True)
-        create_examples(dataset=mnist_train_data if "T" in dt_name else mnist_test_data, number_of_examples=10000,
-                        pair_type=p_type, filename=Path(data_root) / scenario_name / f"{dt_name}_dataset.csv")
+        create_examples(dataset=mnist_train_data if "T" in dt_name else mnist_test_data, number_of_examples=20000,
+                        pair_type=p_type, filename=Path(data_root) / scenario_name / f"{dt_name}.csv")
         print("Done!", flush=True)
