@@ -44,6 +44,6 @@ class Tester(object):
                 correct += result == True
                 if iterations % log_iter == 0:
                     accuracy = (correct / iterations) * 100
-                    print('Accuracy %: ', accuracy)
+                    print("Accuracy %: ", round(accuracy, 2), "Iterations", iterations)
                 iterations += 1
         return accuracy
