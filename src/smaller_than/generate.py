@@ -4,6 +4,7 @@ from pathlib import Path
 import pandas as pd
 from torchvision.datasets.mnist import MNIST
 
+from local_params import scenario_name
 from src.datasets import mnist_test_data, mnist_train_data
 from src.params import data_root
 
@@ -44,7 +45,7 @@ def create_examples(dataset: MNIST, number_of_examples: int, pair_type: int, fil
             digit_1, digit_2 = dataset[i_1][1], dataset[i_2][1]  # get actual digits
             assert (digit_1 + digit_2) % 2 == 0  # check that the digits are both either even or odd
 
-            pairs.append([i_1, i_2, digit_1 < digit_2])
+            pairs.append([i_1, i_2, digit_1, digit_2, digit_1 < digit_2])
 
     elif pair_type == 1:  # exactly one odd and one even digit
         for _ in range(number_of_examples):
@@ -58,10 +59,10 @@ def create_examples(dataset: MNIST, number_of_examples: int, pair_type: int, fil
             digit_1, digit_2 = dataset[pair[0]][1], dataset[pair[1]][1]  # get actual digits
             assert (digit_1 + digit_2) % 2 == 1  # check that we have one even and one odd digit
 
-            pairs.append([*pair, digit_1 < digit_2])
+            pairs.append([*pair, digit_1, digit_2, digit_1 < digit_2])
 
     # write dataset to csv file
-    dt = pd.DataFrame(pairs, columns=["digit_1_image", "digit_2_image", "label"])
+    dt = pd.DataFrame(pairs, columns=["digit_1_image", "digit_2_image", "digit_1", "digit_2", "label"])
 
     filename.parent.mkdir(exist_ok=True)  # make sure subdirectory exists
 
@@ -75,5 +76,5 @@ if __name__ == '__main__':
     for dt_name, p_type in zip(dataset_names, pair_types):
         print(f"Generating {dt_name} dataset...", end=" ", flush=True)
         create_examples(dataset=mnist_train_data if "T" in dt_name else mnist_test_data, number_of_examples=10000,
-                        pair_type=p_type, filename=Path(data_root) / "smaller_than" / f"{dt_name}_dataset.csv")
+                        pair_type=p_type, filename=Path(data_root) / scenario_name / f"{dt_name}_dataset.csv")
         print("Done!", flush=True)
