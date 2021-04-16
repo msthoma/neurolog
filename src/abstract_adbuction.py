@@ -22,7 +22,7 @@ class AbstractAbduction(object):
 
     def callSicstus(self, target: Goal) -> SddNode:
         # self.command = self.sicstusBin + 'sicstus ' + '--noinfo -l ' + self.sicstusBin + 'abduction ' + '-l ' + self.sicstusBin + self.prepareTheory + ' ' + '--goal "go."'
-        self.command = '/usr/local/sicstus4.6.0/bin/sicstus ' + '-l ' + self.sicstusBin + 'abduction ' + '-l ' + self.sicstusBin + self.prepareTheory + ' ' + '--goal "go."'
+        self.command = '/usr/local/sicstus4.6.0/bin/sicstus --noinfo -l ' + self.sicstusBin + 'abduction ' + '-l ' + self.sicstusBin + self.prepareTheory + ' --goal "go."'
 
         self.scenario += 1
         self.prepareInput(target)
