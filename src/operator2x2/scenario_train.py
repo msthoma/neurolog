@@ -20,4 +20,5 @@ outputClasses = [10] * 4  # 10 digits x 4 results
 outputClasses.extend([3] * 4)
 scenario = 'operator2x2'
 
-scenario_train(network, outputClasses, translator, dataManager, scenario, abduction)
+if __name__ == '__main__':
+    scenario_train(network, outputClasses, translator, dataManager, scenario, abduction)

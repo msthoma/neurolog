@@ -18,6 +18,7 @@ dataManager = Add2x2Manager()
 outputClasses = [10] * 4
 evaluator = Evaluator()
 scenario = 'add2x2'
-model_name = 'model_samples_3000_iter_100_epoch_1.mdl'
+model_name = 'model_samples_3000_iter_9001_epoch_3.mdl'
 
-scenario_test(network, outputClasses, translator, dataManager, scenario, model_name, evaluator)
+if __name__ == '__main__':
+    scenario_test(network, outputClasses, translator, dataManager, scenario, model_name, evaluator)

@@ -19,4 +19,5 @@ abduction = Abduction(sicstus_bin, translator)
 outputClasses = [3] * 4
 scenario = 'apply2x2'
 
-scenario_train(network, outputClasses, translator, dataManager, scenario, abduction)
+if __name__ == '__main__':
+    scenario_train(network, outputClasses, translator, dataManager, scenario, abduction)

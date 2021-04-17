@@ -21,10 +21,8 @@ class Evaluator(object):
             digit = int(fact[3])
             arguments[position - 1] = digit
 
-        if arguments[0] + arguments[1] == row1_sum and \
-                arguments[2] + arguments[3] == row2_sum and \
-                arguments[0] + arguments[2] == col1_sum and \
-                arguments[1] + arguments[3] == col2_sum:
+        if arguments[0] + arguments[1] == row1_sum and arguments[2] + arguments[3] == row2_sum and \
+                arguments[0] + arguments[2] == col1_sum and arguments[1] + arguments[3] == col2_sum:
             return True
 
         return False
