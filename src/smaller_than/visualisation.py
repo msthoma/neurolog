@@ -30,15 +30,19 @@ if __name__ == '__main__':
     colors = iter(["b", "g", "r", "k"])
     for i, (train_dataset, test_datasets) in enumerate(test_results.items()):
         for j, (test_dataset, results) in enumerate(test_datasets.items()):
+            # calculate statistics for accuracy over the different runs
             results = pd.concat([results.median(axis=1), results.min(axis=1), results.max(axis=1)], axis=1)
             results.columns = ["median", "min", "max"]
+
             color = next(colors)
-            x, y = np.array(results.index), np.array(results["median"])
             axes[i, j].set_ylim(50, 102)
             axes[i, j].set_xlim(0, 9500)
-            axes[i, j].plot(x, y, color, linewidth=1, label="Median accuracy (%) / iteration")
-            axes[i, j].fill_between(x, np.array(results["min"]), np.array(results["max"]),
-                                    facecolor=color, alpha=0.3, label="Range of accuracy values")
+            x = np.array(results.index)
+            # plot median accuracy line
+            axes[i, j].plot(x, np.array(results["median"]), color, linewidth=1, label="Median accuracy (%) / iteration")
+            # plot accuracy range of values
+            axes[i, j].fill_between(x, np.array(results["min"]), np.array(results["max"]), facecolor=color, alpha=0.35,
+                                    label="Range of accuracy values")
             if i == 1: axes[i, j].set_xlabel("Iterations", fontsize=12)
             if j == 0: axes[i, j].set_ylabel(f"Trained with {train_dataset}", fontsize=20)
             if i == 0: axes[i, j].set_title(f"Tested with {test_dataset}", fontsize=20)
@@ -46,4 +50,4 @@ if __name__ == '__main__':
             axes[i, j].tick_params(axis='both', which='major')
 
     fig.show()
-    fig.savefig(Path(results_root) / scenario_name / "accuracy.pdf", format="pdf", bbox_inches="tight")
+    fig.savefig(Path(results_root) / scenario_name / "accuracy_plots.pdf", format="pdf", bbox_inches="tight")
