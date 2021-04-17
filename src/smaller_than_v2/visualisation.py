@@ -57,6 +57,6 @@ if __name__ == '__main__':
             axes[i, j].tick_params(axis='both', which='major')
 
     fig.show()
-    fig.savefig(Path(results_root) / scenario_name / "accuracy_plots.pdf", format="pdf", bbox_inches="tight")
+    fig.savefig(Path(results_root) / scenario_name / "accuracy_plots_v2.pdf", format="pdf", bbox_inches="tight")
 
     print(stats_table)
