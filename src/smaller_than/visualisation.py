@@ -97,27 +97,44 @@ if __name__ == '__main__':
     fig, axes = plt.subplots(2, 2, figsize=(10, 10))  # , sharex="all", sharey="all")
 
     # import results files
-    evaluation_results = defaultdict(dict)
+    # evaluation_results = defaultdict(lambda: defaultdict(dict))
+    eval_results = defaultdict(dict)
 
     for results_file in sorted((Path(results_root) / scenario_name).glob("*.csv")):
-        _, train_dataset, _, test_dataset, _ = results_file.stem.split("_")
+        _, train_dataset, _, test_dataset, _, seed = results_file.stem.split("_")
         with open(results_file, "r") as f:
-            evaluation_results[train_dataset][test_dataset] = pd.read_csv(f, sep=",")
+            dt = pd.read_csv(f, sep=",", index_col="iteration")
+            dt.columns = [f"iteration_{seed}"]
+
+            if test_dataset in eval_results[train_dataset]:
+                eval_results[train_dataset][test_dataset] = pd.concat([eval_results[train_dataset][test_dataset], dt],
+                                                                      axis=1)
+            else:
+                eval_results[train_dataset][test_dataset] = dt
+
+            # evaluation_results[train_dataset][test_dataset][seed] = pd.read_csv(f, sep=",", index_col="iteration")
+            # print(evaluation_results[train_dataset][test_dataset][seed])
+            # break
+    t1e1 = eval_results["T1"]["E1"]
+    t1e1 = pd.concat([t1e1.std(axis=1), t1e1.mean(axis=1), t1e1.median(axis=1), t1e1.min(axis=1), t1e1.max(axis=1)],
+                    axis=1)
+    t1e1.columns = ["std", "mean", "median", "min", "max"]
+    print(t1e1)
     c = 0
-    for i, (train_dataset, test_datasets) in enumerate(evaluation_results.items()):
+    for i, (train_dataset, test_datasets) in enumerate(eval_results.items()):
         for j, (test_dataset, results) in enumerate(test_datasets.items()):
             print(i, j, train_dataset, test_dataset)
-
-            x, y = np.array(results["iteration"]), np.array(results["accuracy"])
-            axes[i, j].set_ylim(0, 110)
-            axes[i, j].set_xlim(0, 9500)
-            axes[i, j].plot(x, y, ["b", "g", "r", "y"][c], label="Accuracy % / iteration")
-            if i == 1: axes[i, j].set_xlabel("Iterations")
-            if j == 0: axes[i, j].set_ylabel(train_dataset, fontsize=20)
-            if i == 0: axes[i, j].set_title(test_dataset, fontsize=20)
-            axes[i, j].legend(loc='lower right')
-            axes[i, j].tick_params(axis='both', which='major')
-            c += 1
-
-    plt.show()
-    fig.savefig(Path(results_root) / scenario_name / "accuracy.pdf", format="pdf", bbox_inches="tight")
+    #
+    #         x, y = np.array(results["iteration"]), np.array(results["accuracy"])
+    #         axes[i, j].set_ylim(0, 110)
+    #         axes[i, j].set_xlim(0, 9500)
+    #         axes[i, j].plot(x, y, ["b", "g", "r", "y"][c], label="Accuracy % / iteration")
+    #         if i == 1: axes[i, j].set_xlabel("Iterations")
+    #         if j == 0: axes[i, j].set_ylabel(f"Trained with {train_dataset}", fontsize=20)
+    #         if i == 0: axes[i, j].set_title(f"Tested with {test_dataset}", fontsize=20)
+    #         axes[i, j].legend(loc='lower right')
+    #         axes[i, j].tick_params(axis='both', which='major')
+    #         c += 1
+    #
+    # plt.show()
+    # fig.savefig(Path(results_root) / scenario_name / "accuracy.pdf", format="pdf", bbox_inches="tight")
