@@ -34,15 +34,15 @@ if __name__ == '__main__':
             results.columns = ["median", "min", "max"]
             color = next(colors)
             x, y = np.array(results.index), np.array(results["median"])
-            axes[i, j].set_ylim(50, 108)
+            axes[i, j].set_ylim(50, 102)
             axes[i, j].set_xlim(0, 9500)
             axes[i, j].plot(x, y, color, linewidth=1, label="Median accuracy (%) / iteration")
             axes[i, j].fill_between(x, np.array(results["min"]), np.array(results["max"]),
-                                    facecolor=color, alpha=0.3, label="Accuracy values range")
-            if i == 1: axes[i, j].set_xlabel("Iterations")
+                                    facecolor=color, alpha=0.3, label="Range of accuracy values")
+            if i == 1: axes[i, j].set_xlabel("Iterations", fontsize=12)
             if j == 0: axes[i, j].set_ylabel(f"Trained with {train_dataset}", fontsize=20)
             if i == 0: axes[i, j].set_title(f"Tested with {test_dataset}", fontsize=20)
-            axes[i, j].legend(loc='lower right', fontsize=8)
+            axes[i, j].legend(loc='lower right', fontsize=10)
             axes[i, j].tick_params(axis='both', which='major')
 
     fig.show()
