@@ -1,0 +1,5 @@
+* linguist-vendored
+engine/* linguist-vendored=false
+theories/* linguist-vendored=false
+src/smaller_than/* linguist-vendored=false
+src/smaller_than_v2/* linguist-vendored=false
